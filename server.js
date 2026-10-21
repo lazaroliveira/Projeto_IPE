@@ -1,6 +1,8 @@
 // server.js
 // Atividade Prática - CRUD de Produtos com Node.js e Express
 // Endpoints: GET, GET/:id, POST, PUT/:id, DELETE/:id
+const Database = require("better-sqlite3");
+const db = new Database("produtos.db");
 
 const express = require("express");
 const path = require("path");
@@ -15,15 +17,10 @@ app.use(express.json());
 // Serve a pasta "public" (o front-end de teste feito com fetch())
 app.use(express.static(path.join(__dirname, "public")));
 
-// "Banco de dados" em memória: um array de objetos, igual ao visto na Aula 02
-let produtos = [
-  { id: 1, nome: "Teclado", categoria: "Informática", preco: 150.0, quantidade: 5 },
-  { id: 2, nome: "Mouse", categoria: "Informática", preco: 70.0, quantidade: 20 },
-  { id: 3, nome: "Monitor", categoria: "Informática", preco: 890.0, quantidade: 8 },
-];
+let produtos = db.prepare("SELECT * FROM produtos").all();
 
 // Controla o próximo id a ser gerado nos cadastros (POST)
-let proximoId = 4;
+let proximoId = 1;
 
 // Função auxiliar: verifica se o produto enviado no corpo da requisição
 // tem todos os campos obrigatórios preenchidos.
@@ -43,6 +40,7 @@ function corpoDoProdutoEstaValido(corpo) {
 // GET /produtos -> lista todos os produtos
 // -----------------------------------------------------------------
 app.get("/produtos", (req, res) => {
+  let produtos = db.prepare("SELECT * FROM produtos").all();
   res.status(200).json(produtos);
 });
 
@@ -121,11 +119,14 @@ app.put("/produtos/:id", (req, res) => {
 // -----------------------------------------------------------------
 app.delete("/produtos/:id", (req, res) => {
   const id = Number(req.params.id);
-  const indice = produtos.findIndex((p) => p.id === id);
+  //const indice = produtos.findIndex((p) => p.id === id);
 
-  if (indice === -1) {
-    return res.status(404).json({ erro: `Produto com id ${id} não encontrado.` });
-  }
+  //if (indice === -1) {
+    //return res.status(404).json({ erro: `Produto com id ${id} não encontrado.` });
+  //}
+  const r = db.prepare("DELETE FROM produtos WHERE id =?").run(id);
+  if (r.changes === 0) return res.status(404).json({erro:`Produto com id ${id} não encontrado.`});
+
 
   produtos.splice(indice, 1);
 
