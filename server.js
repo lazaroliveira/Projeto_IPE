@@ -19,9 +19,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 let produtos = db.prepare("SELECT * FROM produtos").all();
 
-// Controla o próximo id a ser gerado nos cadastros (POST)
-let proximoId = 1;
-
 // Função auxiliar: verifica se o produto enviado no corpo da requisição
 // tem todos os campos obrigatórios preenchidos.
 function corpoDoProdutoEstaValido(corpo) {
@@ -49,7 +46,7 @@ app.get("/produtos", (req, res) => {
 // -----------------------------------------------------------------
 app.get("/produtos/:id", (req, res) => {
   const id = Number(req.params.id);
-  const produto = produtos.find((p) => p.id === id);
+  const produtos = db.prepare ("SELEC * FROM produtos WHERE id = ?").get(id);
 
   if (!produto) {
     return res.status(404).json({ erro: `Produto com id ${id} não encontrado.` });
@@ -71,14 +68,13 @@ app.post("/produtos", (req, res) => {
   }
 
   const novoProduto = {
-    id: proximoId++,
     nome: dados.nome,
     categoria: dados.categoria,
     preco: dados.preco,
     quantidade: dados.quantidade,
   };
 
-  produtos.push(novoProduto);
+  const r = db.prepare("INSERT INTO produtos (nome, categoria, preco, quantidade) VALUES (?, ?, ?, ?)").run(novoProduto.nome, novoProduto.categoria, novoProduto.preco, novoProduto.quantidade);
 
   // 201 Created: recurso criado com sucesso
   res.status(201).json(novoProduto);
@@ -89,9 +85,9 @@ app.post("/produtos", (req, res) => {
 // -----------------------------------------------------------------
 app.put("/produtos/:id", (req, res) => {
   const id = Number(req.params.id);
-  const indice = produtos.findIndex((p) => p.id === id);
+  const produto = db.prepare("SELECT * FROM produtos WHERE id = ?").get(id);
 
-  if (indice === -1) {
+  if (!produto) {
     return res.status(404).json({ erro: `Produto com id ${id} não encontrado.` });
   }
 
@@ -103,15 +99,9 @@ app.put("/produtos/:id", (req, res) => {
     });
   }
 
-  produtos[indice] = {
-    id,
-    nome: dados.nome,
-    categoria: dados.categoria,
-    preco: dados.preco,
-    quantidade: dados.quantidade,
-  };
-
   res.status(200).json(produtos[indice]);
+
+  const r = db.prepare("UPDATE produtos SET nome = ?, categoria = ?, preco = ?, quantidade = ? WHERE id = ?").run(dados.nome, dados.categoria, dados.preco, dados.quantidade, id);
 });
 
 // -----------------------------------------------------------------
