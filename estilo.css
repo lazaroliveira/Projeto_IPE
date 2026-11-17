@@ -1,0 +1,9 @@
+body { font-family: system-ui, sans-serif; max-width: 960px; margin: 0 auto; padding: 16px; color: #1f2328; background: #f6f8fa; }
+nav a { margin-right: 16px; color: #1a7f37; font-weight: bold; }
+h1 { color: #1a7f37; }
+table { width: 100%; border-collapse: collapse; background: #fff; }
+th, td { padding: 8px; border-bottom: 1px solid #d0d7de; text-align: left; }
+form { background: #fff; padding: 16px; border: 1px solid #d0d7de; border-radius: 8px; display: grid; gap: 8px; margin: 16px 0; }
+input, select, textarea, button { font: inherit; padding: 6px; }
+button { cursor: pointer; }
+#mensagem { color: #cf222e; font-weight: bold; min-height: 1.5em; }

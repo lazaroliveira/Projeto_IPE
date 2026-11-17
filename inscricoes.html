@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inscrições</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <nav><a href="index.html">Início</a><a href="oportunidades.html">Área do Professor</a></nav>
+  <h1>Inscrições</h1>
+
+  <h2>Oportunidades</h2>
+  <label>Filtrar por tipo:
+    <select id="filtro">
+      <option value="">Todos</option>
+      <option value="monitoria">Monitoria</option>
+      <option value="pesquisa">Pesquisa</option>
+      <option value="extensao">Extensão</option>
+    </select>
+  </label>
+  <table>
+    <thead><tr><th>Título</th><th>Tipo</th><th>Vagas</th><th></th></tr></thead>
+    <tbody id="oportunidades"></tbody>
+  </table>
+
+  <form id="formulario">
+    <strong id="tituloForm">Nova inscrição</strong>
+    <input type="hidden" id="id">
+    <select id="oportunidade_id"></select>
+    <input id="nome" placeholder="Nome">
+    <input id="matricula" placeholder="Matrícula">
+    <input id="curso" placeholder="Curso">
+    <input id="email" type="email" placeholder="E-mail">
+    <div>
+      <button type="submit">Salvar</button>
+      <button type="button" id="cancelar">Cancelar</button>
+    </div>
+  </form>
+  <p id="mensagem"></p>
+
+  <h2 id="tituloLista">Todas as inscrições</h2>
+  <button type="button" id="todas">Ver todas</button>
+  <table>
+    <thead><tr><th>Nome</th><th>Matrícula</th><th>Curso</th><th>E-mail</th><th>Oportunidade</th><th></th></tr></thead>
+    <tbody id="lista"></tbody>
+  </table>
+
+  <script src="js/api.js"></script>
+  <script src="js/inscricoes.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Oportunidades</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <nav><a href="index.html">Início</a><a href="inscricoes.html">Área do Aluno</a></nav>
+  <h1>Oportunidades</h1>
+
+  <label>Filtrar por tipo:
+    <select id="filtro">
+      <option value="">Todos</option>
+      <option value="monitoria">Monitoria</option>
+      <option value="pesquisa">Pesquisa</option>
+      <option value="extensao">Extensão</option>
+    </select>
+  </label>
+
+  <form id="formulario">
+    <strong id="tituloForm">Nova oportunidade</strong>
+    <input type="hidden" id="id">
+    <input id="titulo" placeholder="Título">
+    <select id="tipo">
+      <option value="monitoria">Monitoria</option>
+      <option value="pesquisa">Pesquisa</option>
+      <option value="extensao">Extensão</option>
+    </select>
+    <textarea id="descricao" placeholder="Descrição"></textarea>
+    <input id="professor" placeholder="Professor responsável">
+    <input id="vagas" type="number" min="1" value="1">
+    <div>
+      <button type="submit">Salvar</button>
+      <button type="button" id="cancelar">Cancelar</button>
+    </div>
+  </form>
+  <p id="mensagem"></p>
+
+  <table>
+    <thead><tr><th>Título</th><th>Tipo</th><th>Professor</th><th>Vagas</th><th>Inscritos</th><th></th></tr></thead>
+    <tbody id="lista"></tbody>
+  </table>
+
+  <script src="js/api.js"></script>
+  <script src="js/oportunidades.js"></script>
+</body>
+</html>
